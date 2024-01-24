@@ -12,14 +12,16 @@ phenodata_50660_42861_all_clean_only0and3 <- subset(phenodata_50660_42861_all_cl
 # Convert 'Smoking' column to factor for better interpretation
 phenodata_50660_42861_all_clean_only0and3$Smoking <- as.factor(phenodata_50660_42861_all_clean_only0and3$Smoking)
 
-# Add a constant to the predictor variable
-X <- cbind(1, phenodata_50660_42861_all_clean_only0and3$Predicted_minus_Chronological_lr_top500)
+# predictor variable
+X <- phenodata_50660_42861_all_clean_only0and3$Predicted_minus_Chronological.lr.top500
 
 # Dependent variable
 y <- phenodata_50660_42861_all_clean_only0and3$Binary_Smoking
 
 # Fit the logistic regression model
-model <- glm(y ~ X, family = binomial(link = "logit"))
+model <- glm(y ~ X, family = "binomial")
 
 # Print the regression summary
 summary(model)
+
+McFadden_Pseudo_R2 = 1 - model$deviance / model$null.deviance # works for glm
